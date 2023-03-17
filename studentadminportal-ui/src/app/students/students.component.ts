@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-// import { Student } from '../models/api-models/student.model';
 import { StudentService } from './student.service';
-import { Student } from '../models/ui-models/student.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { Student } from '../models/ui-models/student.model';
 
 @Component({
   selector: 'app-students',
@@ -13,12 +12,13 @@ import { MatSort } from '@angular/material/sort';
 })
 export class StudentsComponent implements OnInit {
 
-  student :Student[] = [];
-  displayedColumns: string[] = ['Firstname', 'Lastname', 'DateofBirth', 'Email','Mobile','Gender'];
+  students :Student[] = [];
+  displayedColumns: string[] = ['firstname', 'lastname', 'dateofBirth', 'email','mobile','gender','edit'];
   dataSource : MatTableDataSource<Student>= new MatTableDataSource<Student>();
 
   @ViewChild(MatPaginator)matPaginator!:MatPaginator;
   @ViewChild(MatSort)matSort!:MatSort;
+  filterString ='';
   constructor(private studentServices:StudentService) { }
 
   ngOnInit(): void {
@@ -26,9 +26,9 @@ export class StudentsComponent implements OnInit {
     this.studentServices.getAllStudents()
     .subscribe({
       next: (students) => {
-          // console.log(students);
-        this.student=students;
-        this.dataSource=new MatTableDataSource<Student>(this.student);
+        console.log(students)
+         this.students=students;
+       this.dataSource=new MatTableDataSource<Student>(this.students);
 
         if (this.matPaginator){
           this.dataSource.paginator = this.matPaginator;
@@ -50,4 +50,7 @@ export class StudentsComponent implements OnInit {
     // );
   }
 
+  filterStudents(){
+    this.dataSource.filter = this.filterString.trim().toLowerCase();
+  }
 }
