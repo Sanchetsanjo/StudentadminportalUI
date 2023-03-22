@@ -17,6 +17,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 table {
   width: 100%;
 }
+
+.ml-1{
+  margin-left: 1em !important;
+}
 .mt-1{
   margin-top: 2em;
 }
