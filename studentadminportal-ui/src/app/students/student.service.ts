@@ -61,4 +61,18 @@ baseApiUrl:string=environment.baseApiUrl;
 
     return this.http.post<Student>(this.baseApiUrl + '/Students/add' , AddStudentRequest)
   }
+
+  uploadImage(studentId:string, file:File) : Observable<any> {
+const formData = new FormData();
+formData.append("profileimage",file);
+return this.http.post(this.baseApiUrl+ '/Students/' + studentId + '/upload-image',
+formData, {
+  responseType :'text'
+}
+);
+  }
+
+  getimagePath(relativePath:string){
+    return '${this.baseApiUrl}/$(relativePath)';
+  }
 }
